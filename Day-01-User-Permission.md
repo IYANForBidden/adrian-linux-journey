@@ -49,7 +49,9 @@ Hasil Error: Saat saya menekan enter, muncul pesan error fatal:
 ```bash
 tamu is not in the sudoers file. This incident will be reported.
 ```
-# Bukti Screenshot:(errortamu.png)
+
+# Bukti Screenshot: 
+![Error user tamu](error%20tamu.png)
 
 ### 3. Eksperimen Chmod (Siapa Pemiliknya?)
 Saya mencoba membuat file dan mengubah izinnya agar orang lain tidak bisa baca.
