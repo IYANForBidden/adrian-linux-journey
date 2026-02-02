@@ -4,6 +4,8 @@
 
 **Topic:** User Management, Permissions, & Basic Privilege Escalation
 
+**Status:** Learning in Progress
+
 ---
 
 ## 1. User & Identity: Understanding "Who Am I?"
