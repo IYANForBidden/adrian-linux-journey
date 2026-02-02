@@ -1,6 +1,7 @@
-# Learning Log: Linux for Red Teaming - Week 2
+# Learning Log: Linux for Red Teaming - day 2
 
 **Date:** 31 Januari 2026
+
 **Topic:** User Management, Permissions, & Basic Privilege Escalation
 
 ---
