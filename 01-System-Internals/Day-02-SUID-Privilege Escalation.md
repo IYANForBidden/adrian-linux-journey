@@ -59,7 +59,7 @@ Eksekusi: Saya menggunakan fitur -exec pada find untuk menjalankan perintah seba
 
 Bukti Keberhasilan : 
 
-![Proof of Concept SUID Privilege Escalation](images/privilege-escalation.png)
+![Proof of Concept SUID Privilege Escalation](../images/privilege-escalation.png)
 
 Mitigasi: Sebagai admin, saya harus segera menghapus bit SUID dari program yang tidak seharusnya memilikinya: sudo chmod u-s /usr/bin/find
 
@@ -90,8 +90,8 @@ data-lain.txt
 
 Sebelum :
 
-![Tampilan file sebelum dihapus](images/sebelum.png)
+![Tampilan file sebelum dihapus](../images/sebelum.png)
 
 Sesudah : 
 
-![Tampilan setelah file dihapus menggunakan wildcard](images/sesudah.png)
+![Tampilan setelah file dihapus menggunakan wildcard](../images/sesudah.png)
