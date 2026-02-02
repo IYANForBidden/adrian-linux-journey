@@ -44,7 +44,7 @@ Saya menggunakan perintah sleep 1000 sebagai simulasi proses panjang.
     bg 
 ```
 
- ![Menunjukkan proses sleep, grep, dan kill](images/proses-sleep.png)
+ ![Menunjukkan proses sleep, grep, dan kill](../images/proses-sleep.png)
 
 Untuk mematikan proses "jahat" tersebut, saya mencari PID-nya lalu menggunakan perintah kill:
 
@@ -65,9 +65,9 @@ ping google.com
 
 Hasilnya: Terminal saya tetap bisa dipakai mengetik, TAPI layar saya terus-menerus dibanjiri output 64 bytes from.... Ini sangat berisik dan dalam skenario Red Team nyata, ini akan langsung membuat saya ketahuan (OpSec Fail).
 
-![Menunjukkan terminal yang banjir output ping](images/panik1.png)
+![Menunjukkan terminal yang banjir output ping](../images/panik1.png)
 
-![Menunjukkan terminal yang banjir output ping](images/panik2.png)
+![Menunjukkan terminal yang banjir output ping](../images/panik2.png)
 
 Saya panik dan mencoba mengetik killall ping, tapi karena layar penuh teks berjalan, saya sempat kesulitan melihat apa yang saya ketik. Akhirnya proses berhasil dihentikan.
 
@@ -87,7 +87,7 @@ ping google.com > /dev/null &
 - `&` : Langsung jalan di background.
 
 
-![Menunjukkan perintah ping dengan /dev/null dan verifikasi ps aux](images/solusi-panik.png)
+![Menunjukkan perintah ping dengan /dev/null dan verifikasi ps aux](../images/solusi-panik.png)
  
 Hasilnya? Proses ping berjalan (terbukti saat dicek dengan ps aux), tapi terminal tetap bersih dan sunyi. Perfect stealth
 
@@ -101,7 +101,7 @@ Saya mengecek status cron (penjadwalan tugas) yang sering dipakai hacker untuk p
 systemctl status cron
 ```
 
-![Menunjukkan output systemctl status cron](images/output-systemctl.png)
+![Menunjukkan output systemctl status cron](../images/output-systemctl.png)
 
 ## 📝 Key Takeaways
 - PID itu Penting: Setiap proses punya ID, dan itu kunci untuk mematikannya (kill).
