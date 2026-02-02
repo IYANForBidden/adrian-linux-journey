@@ -1,6 +1,7 @@
 # Day 4: Linux Weaponization & Package Management
 
 **Status:** Completed ✅
+
 **Focus:** Package Managers (APT/DPKG), Source Code Compilation (GCC), & Stealth Cleanup.
 
 ## 🎯 Tujuan Belajar
