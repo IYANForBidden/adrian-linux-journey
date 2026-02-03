@@ -26,8 +26,7 @@ Hari ini saya belajar bahwa "Hacking tanpa Networking itu mustahil". Sebagai Red
 ### 🚩 Fase Troubleshooting (The Struggle)
 Awalnya, praktik ini tidak berjalan mulus. Saya menemui beberapa error logis dan permission.
 
-![Error Log Day 5](../images/day5-error.png)
-*(Gambar: Log error saat percobaan pertama - Permission Denied & Syntax Error)*
+![Error Permission](../images/error-permission.png)
 
 **Analisis Kesalahan Saya:**
 1.  **`Permission denied`:** Saya mencoba menyuruh Netcat menulis output ke file `rahasia.txt`. Ternyata file tersebut sudah ada sebelumnya (mungkin bekas eksperimen user root/lain), sehingga user saya (`adrian-dwi`) dilarang menimpanya.
@@ -43,8 +42,7 @@ Setelah memahami error tersebut, saya melakukan perbaikan langkah:
 2.  **Listener (Penerima):** Menjalankan `nc -lvnp 4444 > rahasia.txt` (Mode dengar).
 3.  **Sender (Pengirim):** Menjalankan `nc 127.0.0.1 4444 < data-penting.txt` (Mode kirim ke localhost).
 
-![Success Log Day 5](../images/day5-success.jpg)
-*(Gambar: Transfer file berhasil dan isi pesan terbaca)*
+![Permission Success](../images/permission-succes.png)
 
 **Hasil:**
 File `data-penting.txt` yang berisi pesan *"Ini adalah pesan rahasia dari agen 009"* berhasil ditransfer dan dibaca di terminal penerima. Ini membuktikan jalur Command & Control (C2) berhasil dibuat.
