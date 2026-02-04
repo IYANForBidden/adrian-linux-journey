@@ -25,7 +25,6 @@ Tantangan hari ini adalah membuat tool `checker.sh` yang membaca daftar domain d
 ### ❌ Fase 1: Kegagalan (The Struggle)
 Awalnya, script saya gagal total. Outputnya menunjukkan IP yang aneh (`127.0.0.`) dan script terus-menerus melakukan ping ke Google, mengabaikan daftar target saya yang lain.
 
-**Screenshot Error:**
 ![Output Error Script](../images/kode-error-loop.png)
 
 **Analisis Kesalahan:**
@@ -51,7 +50,6 @@ done
 
 ##🚀 Fase 3: Berhasil (Success)
 
-**Screenshot Succes:**
 ![Output Script Succes](../images/loop-succes.png)
 
 Setelah perbaikan, script berjalan sempurna. Ia berhasil membedakan domain yang valid (Google, Facebook) dan domain palsu yang saya masukkan sebagai jebakan.
