@@ -1,4 +1,3 @@
-
 # Day 6: Bash Scripting Dasar (Automation)
 
 **Status:** Completed ✅
@@ -11,73 +10,54 @@ Seorang Red Teamer tidak melakukan serangan secara manual satu per satu. Kita me
 ## 🧠 Teori & Konsep Kunci
 
 ### 1. Anatomi Script (.sh)
-Setiap script dimulai dengan "Shebang" (`#!/bin/bash`) untuk memberitahu sistem program apa yang digunakan untuk menjalankannya. Agar bisa jalan, file wajib diberi izin eksekusi:
-```bash
-chmod +x nama_script.sh
-```
+Setiap script dimulai dengan "Shebang" (`#!/bin/bash`) agar sistem tahu cara menjalankannya. Script juga membutuhkan izin eksekusi (`chmod +x`).
 
-### 2. Variables (Wadah Data)
+### 2. Variables & Loops
+* **Variables:** Wadah penyimpanan data. Contoh: `TARGET="google.com"`.
+* **Loops (`for`):** Melakukan aksi berulang ke banyak target sekaligus.
 
-Variabel digunakan untuk menyimpan data agar bisa dipanggil berulang kali.
-    - Deklarasi: TARGET="google.com"
-    - Panggil: $TARGET (Wajib pakai $ saat dipanggil).
+---
 
-### 3. Looping (for)
+## 💻 Jurnal Praktek: The "Checker" Script
 
-Digunakan untuk melakukan tindakan yang sama berulang kali ke target yang berbeda.
+Tantangan hari ini adalah membuat tool `checker.sh` yang membaca daftar domain dari file teks (`subdomains.txt`) dan mengecek apakah domain tersebut aktif atau mati.
 
-## 💻 Jurnal Praktek & Troubleshooting
+### ❌ Fase 1: Kegagalan (The Struggle)
+Awalnya, script saya gagal total. Outputnya menunjukkan IP yang aneh (`127.0.0.`) dan script terus-menerus melakukan ping ke Google, mengabaikan daftar target saya yang lain.
 
-Hari ini saya membuat script Checker untuk mengecek status website dari sebuah file list. Saya mengalami error logika yang cukup fatal namun memberikan pelajaran berharga.
+**Screenshot Error:**
+![Output Error Script](../images/kode-error-loop.png)
 
-### ❌ The Struggle (Masalah Awal)
+**Analisis Kesalahan:**
+1.  **Variable Mismatch:** Saya mendefinisikan loop dengan nama `for domain`, tapi di dalam perintah `ping`, saya malah memanggil variabel `$ip` (yang kosong/tidak ada).
+2.  **Hardcoded Logic:** Saya tidak sengaja meninggalkan sisa kode latihan sebelumnya (`127.0.0.`), sehingga script mencoba menggabungkan domain dengan IP lokal. Hasilnya kacau.
 
-Awalnya, script saya gagal mendeteksi target dengan benar. Outputnya aneh (127.0.0.) dan selalu mengecek google.com, mengabaikan isi file list saya.
+---
 
-Kode Bermasalah:
-```bash
-# Kesalahan: Menggunakan variabel $ip padahal yang didefinisikan $domain
-for domain in $(cat subdomains.txt); do
-   if ping -c 1 -W 1 127.0.0.$ip > /dev/null; then ...
-```
+### ✅ Fase 2: Perbaikan (The Fix)
+Saya memperbaiki logika script dengan memastikan variabel yang dipanggil (`$domain`) konsisten dengan yang didefinisikan. Saya juga menghapus hardcoded IP agar script murni membaca input dari file teks.
 
-Diagnosa Error:
-    - Variable Mismatch: Saya mendefinisikan for domain, tapi memanggilnya dengan $ip. Karena $ip kosong, sistem membacanya sebagai teks kosong.
-    - Hardcoded Logic: Saya masih menggunakan 127.0.0. (sisa latihan sebelumnya), padahal file subdomains.txt berisi nama domain lengkap (google.com).
-
-### ✅ The Solution (Perbaikan)
-
-Saya memperbaiki logika dengan memahami bahwa Script adalah mesin, dan File adalah bahan bakar. Script tidak perlu mempedulikan isi file, dia hanya memproses variabel yang diberikan.
-
-Kode Final (Working):
-
+**Kode Final:**
 ```bash
 #!/bin/bash
-
-# Membaca isi file subdomains.txt baris per baris
 for domain in $(cat subdomains.txt); do
-
-    # Menggunakan variabel $domain yang benar
-    # -c 1 = Ping 1 kali
-    # -W 1 = Tunggu max 1 detik
     if ping -c 1 -W 1 $domain > /dev/null; then
         echo "[+] Target $domain ditemukan! (UP)"
     else
         echo "[-] Target $domain tidak valid/mati. (DOWN)"
     fi
-
 done
 ```
 
-### Hasil Eksekusi: Script berhasil membedakan mana domain yang aktif (UP) dan mana domain ngawur (DOWN) secara otomatis sesuai isi file subdomains.txt.
-🛠️ Tools Created
+##🚀 Fase 3: Berhasil (Success)
 
-Saya berhasil membuat 3 script dasar hari ini:
-    - setup_target.sh: Script interaktif yang meminta input User (IP & Port) lalu menyimpannya dalam variabel.
-    - pingsweep.sh: Network scanner sederhana menggunakan Loop angka (seq 1 5) untuk mencari host hidup di jaringan lokal.
-    - checker.sh: Domain availability checker yang membaca input dari file eksternal (.txt).
+**Screenshot Succes:**
+![Output Script Succes](../images/loop-succes.png)
 
+Setelah perbaikan, script berjalan sempurna. Ia berhasil membedakan domain yang valid (Google, Facebook) dan domain palsu yang saya masukkan sebagai jebakan.
+
+Screenshot Berhasil:
 ## 📝 Key Takeaways
-    Konsistensi Variabel: Nama variabel saat deklarasi (for x) harus sama dengan saat dipanggil ($x).
-    Automation Mindset: Jika kamu harus melakukan sesuatu lebih dari 3 kali, buatlah script-nya.
-    Logic over Syntax: Memperbaiki script bukan sekadar menghapus error, tapi memahami alur data dari file ke variabel, lalu ke perintah eksekusi.
+Variabel itu Sensitif: Salah ketik satu huruf saja dalam memanggil variabel ($domain vs $ip), script akan rusak.
+Script adalah Robot: Dia tidak peduli isi file kita benar atau salah, dia hanya menjalankan perintah sesuai logika yang kita tulis.
+Troubleshooting Skill: Membaca pesan error di terminal jauh lebih penting daripada sekadar menghafal syntax.
