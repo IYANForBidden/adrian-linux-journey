@@ -33,6 +33,11 @@ Tujuan saya bukan hanya sekadar "bisa pakai Linux", tapi memahami internal siste
 | :--- | :--- | :--- | :--- |
 | **06** | [Bash Scripting Basics](04-Automation-Scripting/Day-06-Bash-Scripting.md) | Variables, Loops (`for`), Conditionals (`if`), Mass Scanning | ✅ Done |
 
+### 📂 Phase 4: Stealth & Lateral Movement
+| Day | Topic | Key Concepts | Status |
+| :--- | :--- | :--- | :--- |
+| **07** | [Logging & Stealth](05-Stealth-Logging/Day-07-Logging-Grep.md) | `grep` Hunting, Log Analysis, Covering Tracks (`truncate`) | ✅ Done |
+
 ---
 
 ## 🛠️ Red Team Arsenal (Tools I've Mastered)
@@ -42,6 +47,7 @@ Berikut adalah command dan tools yang sudah saya pelajari dan praktekkan dalam s
 * **Reconnaissance:** `id`, `whoami`, `ps aux`, `top`, `systemctl`.
 * **Network & Connectivity:** `ip addr`, `ss -antp`, `nc` (Netcat), `ping`.
 * **Automation:** Bash Scripting (`for` loops, variables, input redirection `>`).
+* **Stealth & Hunting:** `grep -r` (Finding secrets), `tail -f` (Log monitoring), `> file` (Log wiping).
 * **Access Control:** `chmod` (termasuk SUID `u+s`), `chown`, `chattr`.
 * **Weaponization:** `gcc` (Compiling C exploits), `make`, `dpkg`.
 
