@@ -1,11 +1,8 @@
 # 🏴‍☠️ Linux Red Team Operations - Field Cheatsheet
 
 **Author:** Adrian
-
-**Scope:** Day 1 - Day 6 (Basics, Permissions, PrivEsc, Processes, Weaponization, Networking, Automation)
-
-**Version:** 3.0
-
+**Scope:** Day 1 - Day 8 (Basics, PrivEsc, Process, Weaponization, Network, Automation, Logging, SSH)
+**Version:** 4.0
 **Status:** Active Document
 
 ---
@@ -113,7 +110,7 @@
 
 ---
 
-## 8. Automation, Scripting & I/O (Day 6) - NEW!
+## 8. Automation, Scripting & I/O
 *Fokus: Membuat tool sendiri, manipulasi output, dan mass-scanning.*
 
 | Command / Simbol | Deskripsi & Fungsi Red Team |
@@ -131,7 +128,36 @@
 
 ---
 
-## 9. OpSec (Operational Security & Cleanup)
+## 9. Logging, Hunting & Stealth (Day 7) - NEW!
+*Fokus: Mencari rahasia di tumpukan data dan menghilangkan jejak.*
+
+| Command | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`grep -r "pass" .`** | **Recursive Grep**. Mencari kata "pass" di semua file dalam folder dan sub-folder. (Hunting Credentials). |
+| **`grep -i "text"`** | **Ignore Case**. Mencari teks tanpa peduli huruf besar/kecil (misal: "PASS", "Pass", "password"). |
+| **`grep -n "text"`** | Menampilkan nomor baris tempat teks ditemukan. |
+| **`tail -f /var/log/syslog`** | Memantau log secara real-time. Berguna untuk melihat apakah serangan kita terdeteksi. |
+| **`> file.log`** | **Log Truncation**. Mengosongkan isi file log tanpa menghapusnya (Lebih *stealthy* daripada `rm`). |
+| **`echo 'Pass!'`** | Gunakan **Single Quote** (`'`) untuk string yang mengandung karakter spesial (`!`, `$`) agar tidak error di Bash. |
+
+---
+
+## 10. SSH & Lateral Movement (Day 8) - NEW!
+*Fokus: Berpindah dari satu mesin ke mesin lain menggunakan kunci (Key-based).*
+
+| Command | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`ssh user@ip`** | Login ke komputer remote. |
+| **`ssh -i key_file user@ip`** | Login menggunakan **Private Key** (tanpa password). |
+| **`ssh-keygen`** | Membuat pasangan kunci SSH (Public & Private) baru. |
+| **`chmod 600 id_rsa`** | **WAJIB**. Mengubah permission Private Key agar aman (hanya pemilik yang bisa baca). Jika tidak, SSH akan menolak kunci. |
+| **`cat ~/.ssh/id_rsa`** | **Looting**. Mencuri Private Key korban untuk akses ke server lain. |
+| **`scp file user@ip:/path`** | **Secure Copy (Upload)**. Mengirim file (exploit/tools) ke komputer target. |
+| **`scp user@ip:/path/file .`** | **Secure Copy (Download)**. Mencuri file (exfiltration) dari target ke komputer kita. |
+
+---
+
+## 11. OpSec (Cleanup)
 *Fokus: Jangan tinggalkan jejak.*
 
 | Command | Deskripsi |
@@ -148,5 +174,6 @@
 
 1. **Check Before You Wreck:** Selalu gunakan `ls -l` atau `id` sebelum menjalankan exploit. Pastikan kamu tahu posisimu.
 2. **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
-3. **Variable is Key:** Saat scripting, kesalahan paling umum adalah salah panggil variabel (`$ip` vs `$domain`). Teliti!
-4. **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu sebelum mengeksekusi payload di sisi korban.
+3. **Quote Matters:** Saat membuat password atau string aneh di terminal (seperti `!`, `$`), gunakan **Single Quotes** (`' '`) agar Bash tidak bingung.
+4. **Key Permission:** Kunci SSH (`id_rsa`) **HARUS** berizin `600`. Jika permission-nya `644` atau `777`, SSH akan menolak memakainya.
+5. **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu.
