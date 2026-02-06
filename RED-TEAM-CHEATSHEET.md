@@ -2,9 +2,9 @@
 
 **Author:** Adrian
 
-**Scope:** Day 1 - Day 5 (Basics, Permissions, PrivEsc, Processes, Weaponization, Networking)
+**Scope:** Day 1 - Day 6 (Basics, Permissions, PrivEsc, Processes, Weaponization, Networking, Automation)
 
-**Version:** 2.0
+**Version:** 3.0
 
 **Status:** Active Document
 
@@ -97,7 +97,7 @@
 
 ---
 
-## 7. Networking & Command Control (C2) - NEW!
+## 7. Networking & Command Control (C2)
 *Fokus: Konektivitas, Reverse Shell, dan Data Exfiltration.*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -113,7 +113,25 @@
 
 ---
 
-## 8. OpSec (Operational Security & Cleanup)
+## 8. Automation, Scripting & I/O (Day 6) - NEW!
+*Fokus: Membuat tool sendiri, manipulasi output, dan mass-scanning.*
+
+| Command / Simbol | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`echo "text"`** | Mencetak teks ke layar. Bisa untuk debug variabel. |
+| **`echo "code" > file`** | Membuat file baru berisi kode (misal: `echo "<?php system($_GET['c']); ?>" > shell.php`). |
+| **`>`** | **Overwrite Redirection**. Menulis output ke file (isi lama hilang). |
+| **`>>`** | **Append Redirection**. Menambah output ke baris paling bawah file (bagus untuk logging). |
+| **`|` (Pipe)** | Mengoper output command kiri ke input command kanan (contoh: `cat log.txt | grep "password"`). |
+| **`#!/bin/bash`** | **Shebang**. Baris wajib paling atas di script bash. |
+| **`VAR="value"`** | Membuat variabel (Ingat: Jangan ada spasi di sekitar `=`). |
+| **`$VAR`** | Memanggil isi variabel (Ingat: Wajib pakai `$` saat dipanggil). |
+| **`for x in $(list); do ... done`** | **Looping**. Struktur untuk melakukan mass scanning (Ping Sweep). |
+| **`if [ cond ]; then ... fi`** | **Conditional**. Logika "Jika-Maka" (Cek apakah host hidup atau mati). |
+
+---
+
+## 9. OpSec (Operational Security & Cleanup)
 *Fokus: Jangan tinggalkan jejak.*
 
 | Command | Deskripsi |
@@ -128,7 +146,7 @@
 
 ### 💡 Tips Pro (The Red Team Mindset)
 
-1.  **Check Before You Wreck:** Selalu gunakan `ls -l` atau `id` sebelum menjalankan exploit. Pastikan kamu tahu posisimu.
-2.  **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
-3.  **Clean As You Go:** Selesai meretas? Hapus `exploit.c`, hapus binary `exploit`, dan bersihkan log. Hantu tidak meninggalkan jejak.
-4.  **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu sebelum mengeksekusi payload di sisi korban.
+1. **Check Before You Wreck:** Selalu gunakan `ls -l` atau `id` sebelum menjalankan exploit. Pastikan kamu tahu posisimu.
+2. **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
+3. **Variable is Key:** Saat scripting, kesalahan paling umum adalah salah panggil variabel (`$ip` vs `$domain`). Teliti!
+4. **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu sebelum mengeksekusi payload di sisi korban.
