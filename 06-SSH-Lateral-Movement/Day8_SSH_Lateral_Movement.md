@@ -45,7 +45,7 @@ ssh-keygen -f kunciku
 * **Algorithm:** Menggunakan **ed25519** (Standar kriptografi modern yang lebih cepat dan aman dibanding RSA lama).
 * **Passphrase:** Dikosongkan (Empty) agar bisa dipakai untuk automasi script.
 
-![Membuat kunci ssh "kunciku" dan memastikan service running.](../images/keygen.png)
+![Membuat kunci ssh "kunciku" dan memastikan service running.](../images/key-gen.png)
 
 ---
 
@@ -62,7 +62,7 @@ ssh -i kunciku adrian-dwi@127.0.0.1
 2.  **Planting Backdoor:** `cat kunciku.pub >> ~/.ssh/authorized_keys` (Memasukkan kunci kita ke daftar "tamu resmi").
 3.  **Access:** `ssh -i kunciku ...` (Login menggunakan kunci, bypass password).
    
-![Mengatur permission menjadi 600, menanam backdoor di authorized_keys, dan berhasil login penuh tanpa password.](../images/exploitation&permission.png)
+![Mengatur permission menjadi 600, menanam backdoor di authorized_keys, dan berhasil login penuh tanpa password.](../images/exploitation-permission.png)
 
 ---
 
