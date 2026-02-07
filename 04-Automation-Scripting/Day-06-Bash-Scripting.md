@@ -57,5 +57,7 @@ Setelah perbaikan, script berjalan sempurna. Ia berhasil membedakan domain yang 
 Screenshot Berhasil:
 ## 📝 Key Takeaways
 Variabel itu Sensitif: Salah ketik satu huruf saja dalam memanggil variabel ($domain vs $ip), script akan rusak.
+
 Script adalah Robot: Dia tidak peduli isi file kita benar atau salah, dia hanya menjalankan perintah sesuai logika yang kita tulis.
+
 Troubleshooting Skill: Membaca pesan error di terminal jauh lebih penting daripada sekadar menghafal syntax.
