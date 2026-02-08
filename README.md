@@ -37,6 +37,12 @@ Tujuan saya bukan hanya sekadar "bisa pakai Linux", tapi memahami internal siste
 | Day | Topic | Key Concepts | Status |
 | :--- | :--- | :--- | :--- |
 | **07** | [Logging & Stealth](05-Stealth-Logging/Day-07-Logging-Grep.md) | `grep` Hunting, Log Analysis, Covering Tracks (`truncate`) | ✅ Done |
+| **08** | [SSH & Lateral Movement](06-SSH-Lateral-Movement/Day8_SSH_Lateral_Movement.md) | Remote Access, `scp` Exfiltration, Key Management | ✅ Done |
+
+### 📂 Phase 5: Persistence & Maintenance
+| Day | Topic | Key Concepts | Status |
+| :--- | :--- | :--- | :--- |
+| **09** | [Cron Jobs & Persistence](07-Persistence-Cron/Day9_Persistence_Cron_Jobs.md) | Scheduled Tasks, `crontab`, Malware Beacon Logic | ✅ Done |
 
 ---
 
@@ -46,6 +52,8 @@ Berikut adalah command dan tools yang sudah saya pelajari dan praktekkan dalam s
 
 * **Reconnaissance:** `id`, `whoami`, `ps aux`, `top`, `systemctl`.
 * **Network & Connectivity:** `ip addr`, `ss -antp`, `nc` (Netcat), `ping`.
+* **Lateral Movement:** `ssh` (Remote Access), `scp` (Secure File Transfer/Exfiltration).
+* **Persistence:** `crontab -e` (Scheduled Tasks), `* * * * *` (Cron Syntax).
 * **Automation:** Bash Scripting (`for` loops, variables, input redirection `>`).
 * **Stealth & Hunting:** `grep -r` (Finding secrets), `tail -f` (Log monitoring), `> file` (Log wiping).
 * **Access Control:** `chmod` (termasuk SUID `u+s`), `chown`, `chattr`.
