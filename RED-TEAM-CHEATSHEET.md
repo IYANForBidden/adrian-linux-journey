@@ -1,8 +1,8 @@
 # 🏴‍☠️ Linux Red Team Operations - Field Cheatsheet
 
 **Author:** Adrian
-**Scope:** Day 1 - Day 8 (Basics, PrivEsc, Process, Weaponization, Network, Automation, Logging, SSH)
-**Version:** 4.0
+**Scope:** Day 1 - Day 9 (Basics, PrivEsc, Process, Weaponization, Network, Automation, Logging, SSH, Persistence)
+**Version:** 4.1
 **Status:** Active Document
 
 ---
@@ -128,7 +128,7 @@
 
 ---
 
-## 9. Logging, Hunting & Stealth (Day 7) - NEW!
+## 9. Logging, Hunting & Stealth (Day 7)
 *Fokus: Mencari rahasia di tumpukan data dan menghilangkan jejak.*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -142,7 +142,7 @@
 
 ---
 
-## 10. SSH & Lateral Movement (Day 8) - NEW!
+## 10. SSH & Lateral Movement (Day 8)
 *Fokus: Berpindah dari satu mesin ke mesin lain menggunakan kunci (Key-based).*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -157,7 +157,20 @@
 
 ---
 
-## 11. OpSec (Cleanup)
+## 11. Persistence & Automation (Day 9) - NEW!
+*Fokus: Memastikan script tetap jalan tanpa interaksi user (Otomatisasi & Backdoor).*
+
+| Command | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`crontab -e`** | **Edit Crontab**. Menambah tugas otomatis (tempat favorit menanam *Persistence*). |
+| **`crontab -l`** | **List Crontab**. Melihat tugas apa yang sedang aktif/dijadwalkan. |
+| **`crontab -r`** | **Remove**. Menghapus seluruh jadwal tugas. |
+| **`* * * * *`** | Syntax: **Jalan setiap menit**. (Menit, Jam, Tanggal, Bulan, Hari). |
+| **`@reboot`** | Syntax spesial: **Jalan setiap kali sistem baru menyala**. |
+
+---
+
+## 12. OpSec (Cleanup)
 *Fokus: Jangan tinggalkan jejak.*
 
 | Command | Deskripsi |
@@ -176,4 +189,4 @@
 2. **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
 3. **Quote Matters:** Saat membuat password atau string aneh di terminal (seperti `!`, `$`), gunakan **Single Quotes** (`' '`) agar Bash tidak bingung.
 4. **Key Permission:** Kunci SSH (`id_rsa`) **HARUS** berizin `600`. Jika permission-nya `644` atau `777`, SSH akan menolak memakainya.
-5. **Listen First:** Saat melakukan *Data Exfiltration* atau *Reverse Shell*, nyalakan **Listener** (`nc -lvnp`) terlebih dahulu.
+5. **Persistence Check:** Jika kamu masuk ke sistem orang lain, coba cek `crontab -l`. Siapa tahu hacker lain sudah duluan masuk lewat sana.
