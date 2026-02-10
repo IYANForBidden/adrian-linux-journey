@@ -9,46 +9,41 @@
 
 ## 🎯 Objective
 
-Hari ini fokus mempelajari **Bash Scripting** sebagai fondasi untuk membuat alat hacking sendiri (*Living off the Land*). Tujuannya adalah mengubah tugas manual yang lambat menjadi otomatisasi cepat.
+Fokus hari ini adalah **Automation**. Dalam operasi Red Team, kita tidak bisa selalu bergantung pada tools bawaan Kali Linux (seperti Nmap) karena alasan *stealth* atau keterbatasan akses. Kita harus bisa membuat alat sendiri (*Living off the Land*).
 
-1.  **Automation:** Membuat script `.sh` untuk melakukan *Ping Sweep* otomatis pada jaringan.
-2.  **Logic & Control:** Memahami penggunaan `Loops` (perulangan) dan `Arguments` (input dinamis).
-3.  **One-Liner:** Teknik menjalankan perintah kompleks dalam satu baris terminal untuk situasi akses terbatas.
-4.  **Custom Tooling:** Mengembangkan tool `ipsweep` sederhana untuk menggantikan fungsi dasar Nmap.
-
----
-
-## 1. The Theory: Building Blocks
-
-Script bash adalah kumpulan perintah terminal yang dijalankan berurutan dengan logika pemrograman.
-
-* **Shebang (`#!/bin/bash`):** Memberi tahu sistem interpreter yang digunakan.
-* **Variables:** Wadah penyimpanan data (contoh: `IP="192.168.1.1"`).
-* **Arguments (`$1`):** Input dari user saat menjalankan script (contoh: `./scan.sh <target>`).
-* **Loops:** Melakukan aksi berulang (sangat berguna untuk scanning ratusan IP).
+**Key Learnings:**
+1.  **Scripting:** Membuat tool "IP Sweeper" sederhana menggunakan Bash.
+2.  **Logic:** Memahami penggunaan `Loops` (perulangan) dan `Arguments` ($1).
+3.  **Efficiency:** Mengubah proses ping manual yang lambat menjadi scanning otomatis paralel.
+4.  **One-Liner:** Teknik menjalankan scanning kompleks dalam satu baris perintah terminal.
 
 ---
 
-## 2. Practical Lab: Creating 'IP Sweeper'
+## 1. Setup & Debugging Process
 
-### A. Script Creation & Debugging
-Tahap awal membuat file `ipsweep.sh`. Pada percobaan pertama, terjadi *syntax error* dan kesalahan target subnet, namun berhasil diperbaiki melalui debugging dan pengecekan interface `ip addr`.
+Langkah pertama adalah menyiapkan *environment* kerja. Saya membuat direktori khusus dan mencoba menulis script awal.
+* **Challenge:** Terjadi *syntax error* pada percobaan pertama.
+* **Fix:** Melakukan debugging pada script dan mengecek interface jaringan (`ip addr`) untuk memastikan subnet target benar (ternyata subnet saya `192.168.40.x`, bukan `1.x`).
 
-![Script Creation Process](images/day10_01_script_creation_debug.png)
-*Gambar 1: Proses pembuatan script, perbaikan syntax error, dan verifikasi interface jaringan.*
+![Setup and Debugging](../images/setup_debug.png)
 
-### B. The Code (`ipsweep.sh`)
-Script final yang digunakan untuk scanning:
+---
+
+## 2. The Source Code (`ipsweep.sh`)
+
+Berikut adalah logika script yang saya buat. Script ini menerima input user (subnet) dan melakukan ping ke 254 host secara paralel.
 
 ```bash
 #!/bin/bash
 
+# Cek apakah user memasukkan argument subnet
 if [ "$1" == "" ]
 then
-    echo "You forgot an IP address!"
+    echo "Lupa IP targetnya, Mas Yaan?"
     echo "Syntax: ./ipsweep.sh 192.168.1"
 else
     # Loop scanning IP 1-254
+    # Command '&' di akhir membuat proses berjalan paralel (cepat)
     for ip in `seq 1 254`; do
         ping -c 1 $1.$ip | grep "64 bytes" | cut -d " " -f 4 | tr -d ":" &
     done
@@ -56,17 +51,31 @@ fi
 ```
 
 ## 3. Execution & Results
-Scanning the Correct Subnet
 
-Setelah mengetahui IP target berada di subnet 192.168.40.x (dari interface ens33), script dijalankan kembali dan berhasil mengidentifikasi host yang aktif.
-The "One-Liner" Technique
+Setelah script diperbaiki, saya melakukan scanning pada subnet lokal 192.168.40.x.
+**A. Script Execution**
 
-Selain menggunakan file script, saya juga mempraktikkan teknik One-Liner langsung di terminal:
+Script berhasil mengidentifikasi 3 host aktif di jaringan:
+
+    192.168.40.1 (Gateway)
+
+    192.168.40.2 (DNS/Virtual Gateway)
+
+    192.168.40.130 (My Kali Machine)
+
+**B. The "One-Liner" Method**
+
+Selain script file, saya juga mempraktikkan teknik One-Liner (langsung di terminal) yang sangat berguna jika kita memiliki akses shell terbatas pada target: 
 ```bash
 for i in {1..20}; do (ping -c 1 192.168.40.$i | grep "bytes from" &); done
 ```
 
+![Setup and Debugging](../images/final_scan.png)
+Gambar 3: Hasil scanning sukses menggunakan script dan metode One-Liner.
+
 # 📝 Key Takeaways
+
+Hari ini saya belajar bahwa kekuatan utama Bash Scripting bukan hanya pada "bisa coding", tapi pada kemampuan memanipulasi output (grep, cut, tr) untuk mendapatkan informasi intelijen yang bersih dan cepat.
 
     Arguments ($1) membuat tools lebih fleksibel tanpa perlu mengedit kode setiap ganti target.
 
