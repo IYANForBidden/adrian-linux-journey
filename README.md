@@ -31,7 +31,8 @@ Tujuan saya bukan hanya sekadar "bisa pakai Linux", tapi memahami internal siste
 ### 📂 Phase 3: Automation & Scripting
 | Day | Topic | Key Concepts | Status |
 | :--- | :--- | :--- | :--- |
-| **06** | [Bash Scripting Basics](04-Automation-Scripting/Day-06-Bash-Scripting.md) | Variables, Loops (`for`), Conditionals (`if`), Mass Scanning | ✅ Done |
+| **06** | [Bash Scripting Basics](04-Automation-Scripting/Day-06-Bash-Scripting.md) | Variables, Loops (`for`), Conditionals (`if`) | ✅ Done |
+| **10** | [Bash for Hackers](04-Automation-Scripting/Day10_Bash_Scripting.md) | Custom Tools (`ipsweep`), One-Liners, Parallel Exec (`&`) | ✅ Done |
 
 ### 📂 Phase 4: Stealth & Lateral Movement
 | Day | Topic | Key Concepts | Status |
@@ -51,11 +52,12 @@ Tujuan saya bukan hanya sekadar "bisa pakai Linux", tapi memahami internal siste
 Berikut adalah command dan tools yang sudah saya pelajari dan praktekkan dalam skenario simulasi:
 
 * **Reconnaissance:** `id`, `whoami`, `ps aux`, `top`, `systemctl`.
-* **Network & Connectivity:** `ip addr`, `ss -antp`, `nc` (Netcat), `ping`.
+* **Network & Connectivity:** `ip addr`, `ss -antp`, `nc` (Netcat), `ping` (sweep).
 * **Lateral Movement:** `ssh` (Remote Access), `scp` (Secure File Transfer/Exfiltration).
 * **Persistence:** `crontab -e` (Scheduled Tasks), `* * * * *` (Cron Syntax).
-* **Automation:** Bash Scripting (`for` loops, variables, input redirection `>`).
+* **Automation:** Bash Scripting (`for` loops, Arguments `$1`, Parallel Jobs `&`, One-Liners).
 * **Stealth & Hunting:** `grep -r` (Finding secrets), `tail -f` (Log monitoring), `> file` (Log wiping).
+* **Data Manipulation:** `cut`, `tr`, `sort`, `uniq` (Cleaning raw output).
 * **Access Control:** `chmod` (termasuk SUID `u+s`), `chown`, `chattr`.
 * **Weaponization:** `gcc` (Compiling C exploits), `make`, `dpkg`.
 
