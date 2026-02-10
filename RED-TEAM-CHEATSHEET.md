@@ -1,8 +1,8 @@
 # 🏴‍☠️ Linux Red Team Operations - Field Cheatsheet
 
 **Author:** Adrian
-**Scope:** Day 1 - Day 9 (Basics, PrivEsc, Process, Weaponization, Network, Automation, Logging, SSH, Persistence)
-**Version:** 4.1
+**Scope:** Day 1 - Day 10 (Basics, PrivEsc, Process, Weaponization, Network, Automation, Logging, SSH, Persistence, Bash Scripting)
+**Version:** 4.2
 **Status:** Active Document
 
 ---
@@ -111,7 +111,7 @@
 ---
 
 ## 8. Automation, Scripting & I/O
-*Fokus: Membuat tool sendiri, manipulasi output, dan mass-scanning.*
+*Fokus: Dasar input/output dan variabel.*
 
 | Command / Simbol | Deskripsi & Fungsi Red Team |
 | :--- | :--- |
@@ -123,8 +123,6 @@
 | **`#!/bin/bash`** | **Shebang**. Baris wajib paling atas di script bash. |
 | **`VAR="value"`** | Membuat variabel (Ingat: Jangan ada spasi di sekitar `=`). |
 | **`$VAR`** | Memanggil isi variabel (Ingat: Wajib pakai `$` saat dipanggil). |
-| **`for x in $(list); do ... done`** | **Looping**. Struktur untuk melakukan mass scanning (Ping Sweep). |
-| **`if [ cond ]; then ... fi`** | **Conditional**. Logika "Jika-Maka" (Cek apakah host hidup atau mati). |
 
 ---
 
@@ -157,7 +155,7 @@
 
 ---
 
-## 11. Persistence & Automation (Day 9) - NEW!
+## 11. Persistence & Automation (Day 9)
 *Fokus: Memastikan script tetap jalan tanpa interaksi user (Otomatisasi & Backdoor).*
 
 | Command | Deskripsi & Fungsi Red Team |
@@ -170,7 +168,22 @@
 
 ---
 
-## 12. OpSec (Cleanup)
+## 12. Bash Automation & Red Team Scripting (Day 10) - NEW!
+*Fokus: Membuat Custom Tools & "Living off the Land" Automation.*
+
+| Command / Simbol | Deskripsi & Fungsi Red Team |
+| :--- | :--- |
+| **`for x in {1..254}; do ... done`** | **Loop**. Melakukan aksi yang sama berulang kali (Scanning Subnet). |
+| **`if [ "$1" == "" ]; then ... fi`** | **Condition**. Mengecek apakah user memberikan input argument (validasi). |
+| **`$1`, `$2`** | **Arguments**. Input dinamis dari user saat menjalankan script (contoh: `./scan.sh 192.168.1`). |
+| **`cmd &`** | **Parallel Execution**. Menjalankan perintah di background agar loop berjalan cepat (multithreading manual). |
+| **`$(cmd)` / `` `cmd` ``** | **Command Substitution**. Menyimpan hasil output perintah ke dalam variabel. |
+| **`grep | cut | tr`** | **Pipeline Magic**. Membersihkan output kotor menjadi data bersih (Filtering IP address). |
+| **`One-Liner`** | Teknik menjalankan loop kompleks dalam satu baris terminal (berguna saat akses shell terbatas). |
+
+---
+
+## 13. OpSec (Cleanup)
 *Fokus: Jangan tinggalkan jejak.*
 
 | Command | Deskripsi |
@@ -186,7 +199,8 @@
 ### 💡 Tips Pro (The Red Team Mindset)
 
 1. **Check Before You Wreck:** Selalu gunakan `ls -l` atau `id` sebelum menjalankan exploit. Pastikan kamu tahu posisimu.
-2. **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `gcc`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
+2. **Living off the Land:** Jangan memaksakan install tools baru jika server target sudah punya `bash`, `python`, atau `perl`. Gunakan apa yang ada agar tidak terdeteksi.
 3. **Quote Matters:** Saat membuat password atau string aneh di terminal (seperti `!`, `$`), gunakan **Single Quotes** (`' '`) agar Bash tidak bingung.
 4. **Key Permission:** Kunci SSH (`id_rsa`) **HARUS** berizin `600`. Jika permission-nya `644` atau `777`, SSH akan menolak memakainya.
 5. **Persistence Check:** Jika kamu masuk ke sistem orang lain, coba cek `crontab -l`. Siapa tahu hacker lain sudah duluan masuk lewat sana.
+6. **Automation is King:** Jika kamu harus melakukan sesuatu lebih dari 3 kali, buatlah script untuk itu. (Day 10 Philosophy).
